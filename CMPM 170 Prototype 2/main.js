@@ -1,4 +1,4 @@
-title = "this sucks";
+title = "CMPM170 Project 2";
 
 description = `
 testing `;
@@ -9,5 +9,6 @@ options = {};
 
 function update() {
   if (!ticks) {
+
   }
 }
