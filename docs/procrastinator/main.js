@@ -57,6 +57,10 @@ let spikeAddDist2;
 let scrolling;
 let jumptimes;
 
+// new stuff
+let jumpCooldown;
+let test = 0;
+
 function update() {
   if (!ticks) {
     y1 = y2 = vy = 0;
@@ -65,7 +69,7 @@ function update() {
     spikeAddDist1 = 0;
     spikeAddDist2 = 15;
     scrolling = 1;
-    jumptimes = 0;
+    jumptimes = 2;
   }
 
 
@@ -106,25 +110,27 @@ function update() {
     play("powerUp");
     isJumping = true;
     vy = 2;
-    jumptimes = 1;
   }
 
+  // text(input.isPressed.toString(), 3, 10);
+  // text(isJumping.toString(), 3, 16);
+  // text(jumptimes.toString(), 3, 21);
+
   //jump
-  if (isJumping) {
+  if(isJumping){
+    // text("im in the air currently",3,30);
     vy -= input.isPressed ? 0.1 : 0.3;
     y1 += vy;
     y2 += vy;
-    //double jump
-    // if (input.isPressed || jumptimes < 2) {
-    //   play("powerUp");
-    //   isJumping = true;
-    //   vy = 2;
-    //   jumptimes = 2;
-    //   // if(jumptimes == 2)
-    //   // {
-    //   //   isJumping = false;
-    //   // }
-    // }
+    //double jump if available
+     if (input.isJustPressed && jumptimes > 0) {
+      //text("i pressed spacebar while in midair", 3, 35);
+      // text("yipee", 3, 20);
+      play("powerUp");
+      isJumping = true;
+      vy = 2;
+      jumptimes--;
+    }
     if (y1 < 0 || y2 < 0) {
       y1 = 0;
       y2 = 0;
@@ -132,6 +138,12 @@ function update() {
     }
   }
   color("green");
+
+  // if character is grounded, reset jumps
+  if(!isJumping){
+    jumptimes = 2;
+  }
+
 
   const c = isJumping ? "c" : addWithCharCode("a", floor(ticks / 15) % 2);
   if (
