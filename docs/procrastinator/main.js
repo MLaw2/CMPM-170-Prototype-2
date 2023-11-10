@@ -2,6 +2,8 @@ title = "Procrastinator";
 
 description = `
 Press To jump
+Press twice 
+To double jump
 `;
 
 characters = [
@@ -42,7 +44,7 @@ rrrrrr
 options = {
   isPlayingBgm: true,
   isReplayEnabled: true,
-  seed: 3,
+  seed: 737654,
   theme: "pixel",
   viewSize: { x: 100, y: 100 },
 };
@@ -52,6 +54,10 @@ let y2;
 let vy;
 let isJumping;
 let spikes;
+
+// for opposite direction spikes
+let reverseSpikes;
+
 let spikeAddDist1;
 let spikeAddDist2;
 let scrolling;
@@ -66,6 +72,7 @@ function update() {
     y1 = y2 = vy = 0;
     isJumping = false;
     spikes = [];
+    reverseSpikes = [];
     spikeAddDist1 = 0;
     spikeAddDist2 = 15;
     scrolling = 1;
@@ -80,9 +87,8 @@ function update() {
 
   //enemy(for us is a book)
   if (spikeAddDist1 < 0) {
-
     //enemy y axis
-    const y1 = rnd() > 1 ? (rnd() < 0.8 ? 92 : 50) : rnd(92, 50);
+    const y1 = rnd() > 1 ? (rnd() < 0.8 ? 92 : 40) : rnd(92, 40);
     //? (rnd() < 0.5 ? 8 : 92) : rnd(8, 92)
     spikes.push({ p: vec(103, y1) });
     //distance
@@ -90,13 +96,12 @@ function update() {
   }
 
   if (spikeAddDist2 < 0) {
-
     //enemy y axis
-    const y2 = rnd() < 1 ? (rnd() < 0.8 ? 59 : 0) : rnd(59, 0);
+    const y2 = rnd() > 1 ? (rnd() < 0.8 ? 92 : 10) : rnd(92, 10);
     //? (rnd() < 0.5 ? 8 : 92) : rnd(8, 92)
-    spikes.push({ p: vec(103, y2) });
+    reverseSpikes.push({ p: vec(0, y2) });
     //distance
-    spikeAddDist2 += rnd(60, 100);
+    spikeAddDist2 += rnd(10, 100);
   }
   color("yellow");
 
@@ -106,10 +111,17 @@ function update() {
     return s.p.x > -3;
   });
 
+  reverseSpikes = reverseSpikes.filter((s) => {
+    s.p.x += scrolling;
+    char("d", s.p, { rotation: floor(ticks / 10) });
+    return s.p.x > -3;
+  });
+
+
   if (!isJumping && input.isPressed) {
     play("powerUp");
     isJumping = true;
-    vy = 2;
+    vy = 3;
   }
 
   // text(input.isPressed.toString(), 3, 10);
@@ -128,7 +140,7 @@ function update() {
       // text("yipee", 3, 20);
       play("powerUp");
       isJumping = true;
-      vy = 2;
+      vy = 3;
       jumptimes--;
     }
     if (y1 < 0 || y2 < 0) {
