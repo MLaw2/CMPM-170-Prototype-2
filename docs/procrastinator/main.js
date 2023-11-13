@@ -32,12 +32,12 @@ l l  l
 l   
 `,
 `
-  rr  
- rrrr 
-rrrrrr
-rrrrrr
- rrrr 
-  rr  
+cccc
+ccccl  
+ccccl 
+ccccl
+ccccl
+ llll  
 `,
 ];
 
@@ -103,17 +103,19 @@ function update() {
     //distance
     spikeAddDist2 += rnd(10, 100);
   }
-  color("yellow");
+  color("black");
 
   spikes = spikes.filter((s) => {
     s.p.x -= scrolling;
-    char("d", s.p, { rotation: floor(ticks / 10) });
+    // char("d", s.p, { rotation: floor(ticks / 10) });
+    char("d", s.p, 10);
     return s.p.x > -3;
   });
 
   reverseSpikes = reverseSpikes.filter((s) => {
     s.p.x += scrolling;
-    char("d", s.p, { rotation: floor(ticks / 10) });
+    // char("d", s.p, { rotation: floor(ticks / 10) });
+    char("d", s.p, 10);
     return s.p.x > -3;
   });
 
@@ -149,7 +151,7 @@ function update() {
       isJumping = false;
     }
   }
-  color("green");
+  color("black");
 
   // if character is grounded, reset jumps
   if(!isJumping){
@@ -166,8 +168,8 @@ function update() {
     end();
   }
   //base and color
-  color("purple");
-  rect(0, 0, 99, 5);
+  color("black");
+  // rect(0, 0, 99, 5);
   rect(0, 95, 99, 5);
 }
 
