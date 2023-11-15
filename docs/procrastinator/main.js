@@ -81,7 +81,7 @@ function update() {
 
 
   scrolling = difficulty;
-  score += scrolling / 10;
+  //score += scrolling / 10;
   spikeAddDist1 -= scrolling;
   spikeAddDist2 -= scrolling;
 
@@ -119,6 +119,19 @@ function update() {
     return s.p.x > -3;
   });
 
+  spikes.forEach((s) => {
+    if (s.p.x < 51 && s.p.x >= 49.8 && s.p.y > y1 + y2) {
+      // console.log(y1, y2, vy, s.p);
+      score += 2 * difficulty;
+    }
+  });
+
+  reverseSpikes.forEach((s) => {
+    if (s.p.x < 51 && s.p.x >= 49.8 && s.p.y > y1 + y2) {
+      // console.log(y1, y2, vy, s.p);
+      score += 2 * difficulty;
+    }
+  });
 
   if (!isJumping && input.isPressed) {
     play("powerUp");
